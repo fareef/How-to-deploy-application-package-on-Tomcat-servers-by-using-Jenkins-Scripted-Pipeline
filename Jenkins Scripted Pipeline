@@ -1,10 +1,10 @@
 node {
         def mvnHome
         mvnHome = tool 'Maven 3.6.3'
-        def servers = ["172.31.42.37"]
+        def servers = ["65.0.91.96"]
         try {
         stage('Preparation') { // for display purposes Get some code from a GitHub repository
-            git 'https://github.com/vipin-k/spring-framework-petclinic.git'
+            git 'https://github.com/fareef/How-to-deploy-application-package-on-Tomcat-servers-by-using-Jenkins-Scripted-Pipeline.git'
             // Get the Maven tool.
             // ** NOTE: This 'M3' Maven tool must be configured
             // **       in the global configuration.   
@@ -34,16 +34,9 @@ node {
             }
         for (server in servers)
         { 
-                stage('Stop Tomcat') {
-                sh "ssh -T 'root@${server}' /opt/apache-tomcat-8.5.31/bin/./shutdown.sh"
-                }
-        
                 stage('War File Deployment') {
-                sh "ssh -T 'root@${server}' rm -f /opt/apache-tomcat-8.5.31/webapps/petclinic.war rm -fr /opt/apache-tomcat-8.5.31/webapps/petclinic"
-                sh "scp target/petclinic.war 'root@${server}':/opt/apache-tomcat-8.5.31/webapps/"
+                sh "scp target/petclinic.war 'ansadmin@${65.0.91.96}':/opt/apache-tomcat-8.5.61/webapps/"
                 }
-                stage('Start Tomcat') {
-                sh "ssh -T 'root@${server}' /opt/apache-tomcat-8.5.31/bin/./startup.sh"
-                }
+                
         }
   }
