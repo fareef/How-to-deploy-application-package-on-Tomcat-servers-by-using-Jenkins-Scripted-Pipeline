@@ -1,7 +1,7 @@
 node {
         def mvnHome
-        mvnHome = tool 'Maven 3.5.2'
-        def servers = ["192.168.1.72","192.168.1.73"]
+        mvnHome = tool 'Maven 3.6.3'
+        def servers = ["172.31.42.37"]
         try {
         stage('Preparation') { // for display purposes Get some code from a GitHub repository
             git 'https://github.com/vipin-k/spring-framework-petclinic.git'
@@ -46,18 +46,4 @@ node {
                 sh "ssh -T 'root@${server}' /opt/apache-tomcat-8.5.31/bin/./startup.sh"
                 }
         }
-        notify('Sucess')
-        }
-catch (err) {
-notify("Error ${err}")
-CurrentBuid.result = 'FAILURE'
-}
-}
-def notify(status){ 
-    emailext (
-      to: "vipinkumargupta@gmail.com",
-      subject: "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      body: """<p>${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
-    )
-}
+  }
